@@ -1,0 +1,11 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/connect"
+    android:icon="@android:drawable/ic_menu_search"
+    android:title="Connect" />
+<item android:id="@+id/preferences"
+    android:icon="@android:drawable/ic_menu_preferences"
+    android:title="Reading Mode" />
+
+</menu>
+<!-- From: file:/C:/Users/Kariem/Desktop/Library/currentProjects/SamamAndroid/BrailleTouchTest/app/src/main/res/menu/menu_main.xml -->
