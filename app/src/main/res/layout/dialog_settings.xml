@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RefreshTxt"
+        android:text="Refresh On Release"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RefreshCheck"
+        android:layout_toRightOf="@+id/RefreshTxt"
+        android:layout_alignBottom="@id/RefreshTxt"
+/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ShiftTxt"
+        android:text="Shift Pins"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/RefreshTxt"
+        android:paddingBottom="15dp"
+        android:textStyle="bold"
+        />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Shiftheck"
+        android:layout_below="@+id/RefreshCheck"
+        android:layout_alignRight="@+id/RefreshCheck"
+        />
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ShiftTxt"
+        android:id="@+id/SettingsSubmit"
+        android:text="Apply"/>
+
+</RelativeLayout>

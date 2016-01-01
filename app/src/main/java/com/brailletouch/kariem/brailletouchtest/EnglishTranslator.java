@@ -9,35 +9,36 @@ import java.util.HashMap;
  */
 public class EnglishTranslator extends BrailleTouchTranslator{
 
-    final static int dots[] = {1,2,4,64, 8, 16,32,128};
+
 
     static HashMap<Character, Integer> englishDictionary = new HashMap<Character, Integer>(){{
-        put('a',dots[0]);
-        put('b',dots[0] + dots[1]);
-        put('c',dots[4] + dots[0]);
-        put('d',dots[0] + dots[4] + dots[5]);
-        put('e',dots[0] + dots[5]);
-        put('f',dots[0] + dots[1] + dots[4]);
-        put('g',dots[0] + dots[1] + dots[4] + dots[5]);
-        put('h',dots[0] + dots[1] + dots[5]);
-        put('i',dots[1] + dots[4]);
-        put('j',dots[1] + dots[4] + dots[5]);
-        put('k',dots[0] + dots[2]);
-        put('l',dots[0] + dots[1] + dots[2]);
-        put('m',dots[0] + dots[2] + dots[4]);
-        put('n',dots[0] + dots[2] + dots[4] + dots[5]);
-        put('o',dots[0] + dots[2] + dots[5]);
-        put('p',dots[0] + dots[1] + dots[2] + dots[4]);
-        put('q',dots[0] + dots[1] + dots[2] + dots[4] + dots[5]);
-        put('r',dots[0] + dots[1] + dots[2] + dots[5]);
-        put('s',dots[1] + dots[2] + dots[4]);
-        put('t',dots[1] + dots[2] + dots[4] + dots[5]);
-        put('u',dots[0] + dots[2] + dots[6]);
-        put('v',dots[0] + dots[1] + dots[2] + dots[6]);
-        put('w',dots[1] + dots[4] + dots[5] + dots[6]);
-        put('x', dots[0] + dots[2] + dots[4] + dots[6]);
-        put('y',dots[0] + dots[2] + dots[4] + dots[5] + dots[6]);
-        put('z',dots[0] + dots[2] + dots[5] + dots[6]);
+        put('a', mDots[0]);
+        put('b', mDots[0] + mDots[1]);
+        put('c', mDots[4] + mDots[0]);
+        put('d', mDots[0] + mDots[4] + mDots[5]);
+        put('e', mDots[0] + mDots[5]);
+        put('f', mDots[0] + mDots[1] + mDots[4]);
+        put('g', mDots[0] + mDots[1] + mDots[4] + mDots[5]);
+        put('h', mDots[0] + mDots[1] + mDots[5]);
+        put('i', mDots[1] + mDots[4]);
+        put('j', mDots[1] + mDots[4] + mDots[5]);
+        put('k', mDots[0] + mDots[2]);
+        put('l', mDots[0] + mDots[1] + mDots[2]);
+        put('m', mDots[0] + mDots[2] + mDots[4]);
+        put('n', mDots[0] + mDots[2] + mDots[4] + mDots[5]);
+        put('o', mDots[0] + mDots[2] + mDots[5]);
+        put('p', mDots[0] + mDots[1] + mDots[2] + mDots[4]);
+        put('q', mDots[0] + mDots[1] + mDots[2] + mDots[4] + mDots[5]);
+        put('r', mDots[0] + mDots[1] + mDots[2] + mDots[5]);
+        put('s', mDots[1] + mDots[2] + mDots[4]);
+        put('t', mDots[1] + mDots[2] + mDots[4] + mDots[5]);
+        put('u', mDots[0] + mDots[2] + mDots[6]);
+        put('v', mDots[0] + mDots[1] + mDots[2] + mDots[6]);
+        put('w', mDots[1] + mDots[4] + mDots[5] + mDots[6]);
+        put('x', mDots[0] + mDots[2] + mDots[4] + mDots[6]);
+        put('y', mDots[0] + mDots[2] + mDots[4] + mDots[5] + mDots[6]);
+        put('z', mDots[0] + mDots[2] + mDots[5] + mDots[6]);
+        put(' ', 0);
 
 
 

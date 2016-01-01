@@ -34,11 +34,18 @@ import java.util.Set;
 
 public class ConnectActivity extends Activity {
 
-
+    ExpandableBluetoothListAdapter devicesAdapter;
     public int getPixelValue(int dp) {
 
         final float scale = getResources().getDisplayMetrics().density;
         return (int) (dp * scale + 0.5f);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(devicesAdapter.mListener);
+
     }
 
     @Override
@@ -54,7 +61,7 @@ public class ConnectActivity extends Activity {
 
 
 
-        final ExpandableBluetoothListAdapter devicesAdapter = new ExpandableBluetoothListAdapter(BluetoothAdapter.getDefaultAdapter(), this);
+         devicesAdapter = new ExpandableBluetoothListAdapter(BluetoothAdapter.getDefaultAdapter(), this);
         devices.setAdapter(devicesAdapter);
 
         Button btnScan = (Button)findViewById(R.id.button_scan);
@@ -148,6 +155,7 @@ class ExpandableBluetoothListAdapter extends BaseExpandableListAdapter
 
 
 
+
     BroadcastReceiver mListener = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -175,7 +183,6 @@ class ExpandableBluetoothListAdapter extends BaseExpandableListAdapter
     }
     public ExpandableBluetoothListAdapter(BluetoothAdapter BTAdapater, Context context)
     {
-
         mBTAdapater = BTAdapater;
         mBondedDevices = BTAdapater.getBondedDevices();
         mOtherDevices = new HashSet<BluetoothDevice>();

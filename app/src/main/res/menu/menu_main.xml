@@ -3,8 +3,14 @@
 <item android:id="@+id/connect"
     android:icon="@android:drawable/ic_menu_search"
     android:title="Connect" />
-<item android:id="@+id/preferences"
+<item android:id="@+id/readingMode"
     android:icon="@android:drawable/ic_menu_preferences"
     android:title="Reading Mode" />
+
+
+    <item android:id="@+id/Settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="Settings" />
+
 
 </menu>

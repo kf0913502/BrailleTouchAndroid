@@ -7,20 +7,22 @@ import java.io.IOException;
  */
 public class SingleCellWriter extends BrailleTouchWriter {
 
-    private int readingCell;
+    private int mReadingCell;
 
-    final int LEFT_CELL=0;
-    final int RIGHT_CELL=1;
+    public static final int LEFT_CELL=0;
+    public static final int RIGHT_CELL=1;
 
-    public SingleCellWriter(BrailleTouchTranslator brailleTouchTranslatorl) {
+    public SingleCellWriter(BrailleTouchTranslator brailleTouchTranslatorl, int readingCell) {
         super(brailleTouchTranslatorl);
+        mReadingCell = readingCell;
+
     }
 
 
 
     @Override
     public void write(char letter) throws IOException {
-        if (readingCell == LEFT_CELL)
+        if (mReadingCell == LEFT_CELL)
         {
 
             BrailleTouchConnection.write(0);
@@ -35,10 +37,10 @@ public class SingleCellWriter extends BrailleTouchWriter {
     }
 
     public int getReadingCell() {
-        return readingCell;
+        return mReadingCell;
     }
 
     public void setReadingCell(int readingCell) {
-        this.readingCell = readingCell;
+        this.mReadingCell = readingCell;
     }
 }

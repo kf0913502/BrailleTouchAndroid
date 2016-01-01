@@ -27,8 +27,9 @@ public class BrailleTouchConnection {
                     char letter = 0;
                     try {
                         letter = (char)mSocket.getInputStream().read();
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         Log.v("BrailleTouchTest", "Cannot read message from Ardunio " + e);
+                        break;
                     }
                     message += Character.toString(letter);
                     if (letter == '\n')
