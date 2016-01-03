@@ -13,5 +13,10 @@
         android:title="Settings" />
 
 
+    <item android:id="@+id/EnterText"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="Enter Text" />
+
+
 </menu>
 <!-- From: file:/C:/Users/Kariem/Desktop/Library/currentProjects/SamamAndroid/BrailleTouchTest/app/src/main/res/menu/menu_main.xml -->

@@ -1,6 +1,5 @@
 package com.brailletouch.kariem.brailletouchtest;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +8,7 @@ import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,12 +18,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ListAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,28 +31,32 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Handler;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    int ROWS_COUNT = 5;
-    int COL_COUNT = 5;
-    boolean mRefreshCells=true;
-    boolean mShiftPins = true;
+    static int mRows = 5;
+    static int mCols = 5;
+    static String mText = "hello this is braille touch test";
+    static boolean mRefreshCells=true;
+    static boolean mShiftPins = true;
     static HashMap<String, BrailleTouchWriter> mReadingModesDictionary = new HashMap<String, BrailleTouchWriter>(){{
         put("Single Cell (Left)", new SingleCellWriter(new EnglishTranslator(), SingleCellWriter.LEFT_CELL));
         put("Single Cell (Right)", new SingleCellWriter(new EnglishTranslator(), SingleCellWriter.RIGHT_CELL));
         put ("Mirror Cells", new MirroredWriter(new EnglishTranslator()));
         put ("Alternate Cells", new AlternateCellWriter(new EnglishTranslator()));
         put ("Shifting Cells", new ShiftingCellsWriter(new EnglishTranslator()));
+        put("Single Cell (Center)", new SingleCellWriter(new EnglishTranslator(), SingleCellWriter.CENTER_CELL));
+
 
     }};
 
 
-    String mReadingModeChoice = "Single Cell (Left)";
-    char currentLetter=0;
-    BrailleTouchWriter mBrailleTouchWriter;
+    static String mReadingModeChoice = "Single Cell (Left)";
+    static char currentLetter=0;
+    static BrailleTouchWriter mBrailleTouchWriter;
+
+
     ArrayList<View> mTextViews = new ArrayList<View>();
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,29 +65,58 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-    private boolean inRegion(float x, float y, View v) {
+
+    private void refreshText() {
+        for (int i = 0; i < mRows; i++) {
+            for (int j = 0; j < mCols; j++) {
+                if (mTextViews.get(mRows * i + j) == null)
+                    break;
+                TextView textView = (TextView) mTextViews.get(mRows * i + j);
+                char letter = ' ';
+                if (i * mCols + j < mText.length())
+                    letter = mText.charAt(i * mCols + j);
+
+
+                textView.setText(Character.toString(letter));
+            }
+        }
+    }
+
+
+
+    private int inRegion(float x, float y, View v) {
         int coordBuffer[] = new int[2];
         v.getLocationOnScreen(coordBuffer);
-        return coordBuffer[0] + v.getWidth() > x &&    // right edge
+        if (coordBuffer[0] + v.getWidth() > x &&    // right edge
+                coordBuffer[1] + v.getHeight()/2 > y &&   // bottom edge
+                coordBuffer[0] < x &&                   // left edge
+                coordBuffer[1] < y)                     // top edge
+        return 0;
+        else         if (coordBuffer[0] + v.getWidth() > x &&    // right edge
                 coordBuffer[1] + v.getHeight() > y &&   // bottom edge
                 coordBuffer[0] < x &&                   // left edge
-                coordBuffer[1] < y;                     // top edge
+                coordBuffer[1] < y)                     // top edge
+            return 1;
+        else return -1;
+
     }
-    int insideView(ArrayList<View> views, float x, float y)
+    Pair<Integer, Integer> insideView(ArrayList<View> views, float x, float y)
     {
         for (int i=0; i<views.size(); i++)
         {
-            if (inRegion(x,y,views.get(i)))
-                return i;
+            int inside =0;
+            inside = inRegion(x,y,views.get(i));
+            if (inside != -1)
+                return new Pair<Integer, Integer>(i, inside);
         }
 
-        return -1;
+        return null;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBrailleTouchWriter = mReadingModesDictionary.get("Single Cell (Left)");
+        mBrailleTouchWriter = mReadingModesDictionary.get(mReadingModeChoice);
         TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(
                 TableLayout.LayoutParams.FILL_PARENT,
                 TableLayout.LayoutParams.FILL_PARENT, 1.0f);
@@ -97,19 +130,23 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (BrailleTouchConnection.mConnected) {
-                    int viewIndex = insideView(mTextViews,event.getRawX(),event.getRawY());
-                    if (viewIndex != -1)
+                    Pair<Integer, Integer> viewIndex = insideView(mTextViews,event.getRawX(),event.getRawY());
+                    if (viewIndex != null)
                     try {
-                        char letter = ((TextView) mTextViews.get(viewIndex)).getText().charAt(0);
+                        char letter = ((TextView) mTextViews.get(viewIndex.first)).getText().charAt(0);
                         if (event.getAction() == MotionEvent.ACTION_UP && mRefreshCells)
                         {
                             mBrailleTouchWriter.write(' ');
                             currentLetter = ' ';
                             return true;
                         }
-                        if (letter != currentLetter)
+                        if (letter != currentLetter ||
+                                (mShiftPins && mBrailleTouchWriter.getShiftPinsDown() != (viewIndex.second == 1)))
                        {
                             currentLetter = letter;
+                           if (mShiftPins)
+                            mBrailleTouchWriter.setShiftPinsDown(viewIndex.second == 1);
+                           else mBrailleTouchWriter.setShiftPinsDown(false);
                             mBrailleTouchWriter.write( letter );
                         }
                     } catch (IOException e) {
@@ -119,19 +156,24 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
-        for (int i=0; i< ROWS_COUNT; i++)
+        for (int i=0; i< mRows; i++)
         {
             TableRow tableRow = new TableRow(this);
             tableRow.setGravity(Gravity.CENTER);
             tableRow.setLayoutParams(tableParams);
             tableRow.setFocusable(true);
             tableRow.setFocusableInTouchMode(true);
-            for (int j=0; j<COL_COUNT; j++)
+            for (int j=0; j< mCols; j++)
             {
                 TextView textView = new TextView(this);
                 textView.setTextSize(25);
                 textView.setGravity(Gravity.CENTER);
-                final char letter = (char)('A' + i*COL_COUNT + j);
+
+                char letter = ' ';
+                if (i* mCols + j < mText.length())
+                    letter = mText.charAt(i* mCols + j);
+
+
                 textView.setText(Character.toString(letter));
                 textView.setLayoutParams(rowParams);
                 tableRow.addView(textView);
@@ -182,6 +224,34 @@ public class MainActivity extends ActionBarActivity {
 
 
         }
+        else if (id == R.id.EnterText)
+        {
+            final Dialog b = new Dialog(this);
+            b.setContentView(R.layout.dialog_entertext);
+            final EditText txt = (EditText)b.findViewById(R.id.EnterTextEdit);
+            txt.setText(mText);
+            b.setTitle("Enter Text");
+            b.show();
+            Button btn = (Button)b.findViewById(R.id.EnterTextSubmit);
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try{
+                        mText = txt.getText().toString();
+                        refreshText();
+
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Can't refresh text : " + e);
+                    }
+
+                    b.dismiss();
+                }
+            });
+
+        }
         else if (id == R.id.Settings)
         {
             final Dialog b = new Dialog(this);
@@ -194,6 +264,28 @@ public class MainActivity extends ActionBarActivity {
             refreshCheck.setChecked(mRefreshCells);
 
             Button settingsSubmit = (Button)b.findViewById(R.id.SettingsSubmit);
+
+            ArrayList<String> cols = new ArrayList<String>();
+            ArrayList<String> rows = new ArrayList<String>();
+
+            for (int i=1; i<10; i++)
+            {
+                cols.add(Integer.toString(i));
+                rows.add(Integer.toString(i));
+            }
+
+            final Spinner colSpinner = (Spinner)b.findViewById(R.id.ColumnSpinner);
+            ArrayAdapter<String> colAdapter  = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,cols);
+            colAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            colSpinner.setAdapter(colAdapter);
+
+            final Spinner rowSpinner = (Spinner)b.findViewById(R.id.RowsSpinner);
+            ArrayAdapter<String> rowAdapter  = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,rows);
+            rowAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            rowSpinner.setAdapter(rowAdapter);
+
+            colSpinner.setSelection(mCols - 1);
+            rowSpinner.setSelection(mRows-1);
             b.setTitle("Settings");
             b.show();
 
@@ -202,6 +294,9 @@ public class MainActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     mRefreshCells = refreshCheck.isChecked();
                     mShiftPins = shiftCheck.isChecked();
+                    mCols = colSpinner.getSelectedItemPosition()+1;
+                    mRows = rowSpinner.getSelectedItemPosition()+1;
+                    recreate();
                     b.dismiss();
                 }
             });

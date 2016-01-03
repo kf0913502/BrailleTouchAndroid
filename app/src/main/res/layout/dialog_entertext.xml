@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+<TextView
+    android:id="@+id/EnterTextTxt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Display Text"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp"
+    android:layout_alignParentLeft="true"
+    android:textStyle="bold" />
+
+<EditText
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@+id/EnterTextTxt"
+    android:hint="Enter text to display"
+
+    android:id="@+id/EnterTextEdit"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/EnterTextSubmit"
+        android:layout_below="@id/EnterTextEdit"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

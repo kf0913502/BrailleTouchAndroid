@@ -13,8 +13,10 @@ public class MirroredWriter extends BrailleTouchWriter {
 
     @Override
     public void write(char letter) throws IOException {
-        BrailleTouchConnection.write(mBrailleTouchTranslator.translateToBraille(letter));
-        BrailleTouchConnection.write(mBrailleTouchTranslator.translateToBraille(letter));
+        int value = mBrailleTouchTranslator.translateToBraille(letter);
+        value = postProcessing(value);
+        BrailleTouchConnection.write(value);
+        BrailleTouchConnection.write(value);
 
     }
 }

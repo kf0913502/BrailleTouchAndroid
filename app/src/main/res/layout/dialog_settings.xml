@@ -1,52 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/RefreshTxt"
-        android:text="Refresh On Release"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:textStyle="bold"
-        />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/RefreshCheck"
-        android:layout_toRightOf="@+id/RefreshTxt"
-        android:layout_alignBottom="@id/RefreshTxt"
-/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ShiftTxt"
-        android:text="Shift Pins"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/RefreshTxt"
-        android:paddingBottom="15dp"
-        android:textStyle="bold"
-        />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Shiftheck"
-        android:layout_below="@+id/RefreshCheck"
-        android:layout_alignRight="@+id/RefreshCheck"
-        />
 
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/ShiftTxt"
-        android:id="@+id/SettingsSubmit"
-        android:text="Apply"/>
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        >
 
-</RelativeLayout>
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/RefreshTxt"
+                android:text="Refresh On Release"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp" />
+
+            <RelativeLayout android:layout_weight="1">
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/RefreshCheck"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"/>
+            </RelativeLayout>
+        </TableRow>
+
+        <TableRow >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ShiftTxt"
+                android:text="Shift Pins"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp" />
+
+            <RelativeLayout android:layout_weight="1">
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Shiftheck"
+                    android:layout_centerHorizontal="true"
+                    />
+            </RelativeLayout>
+        </TableRow>
+
+
+        <TableRow >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ColumnsTxt"
+                android:text="Columns"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="15dp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp" />
+            <RelativeLayout android:layout_weight="1">
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ColumnSpinner"
+                    android:spinnerMode="dropdown"
+                    android:layout_centerHorizontal="true"
+                    />
+            </RelativeLayout>
+        </TableRow>
+
+
+        <TableRow >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/RowsTxt"
+                android:text="Rows"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="15dp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp" />
+
+            <RelativeLayout android:layout_weight="1">
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/RowsSpinner"
+                    android:spinnerMode="dropdown"
+                    android:layout_centerHorizontal="true"
+                    />
+            </RelativeLayout>
+        </TableRow>
+
+    <TableRow>
+        <RelativeLayout android:layout_weight="1">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/SettingsSubmit"
+            android:text="Apply"
+            />
+        </RelativeLayout>
+    </TableRow>
+
+    </TableLayout>
+</LinearLayout>

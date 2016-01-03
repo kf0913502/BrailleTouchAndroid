@@ -11,6 +11,8 @@ public class SingleCellWriter extends BrailleTouchWriter {
 
     public static final int LEFT_CELL=0;
     public static final int RIGHT_CELL=1;
+    public static final int CENTER_CELL=2;
+
 
     public SingleCellWriter(BrailleTouchTranslator brailleTouchTranslatorl, int readingCell) {
         super(brailleTouchTranslatorl);
@@ -22,15 +24,23 @@ public class SingleCellWriter extends BrailleTouchWriter {
 
     @Override
     public void write(char letter) throws IOException {
+
+        int value = mBrailleTouchTranslator.translateToBraille(letter);
+        value = postProcessing(value);
         if (mReadingCell == LEFT_CELL)
         {
 
             BrailleTouchConnection.write(0);
-            BrailleTouchConnection.write(mBrailleTouchTranslator.translateToBraille(letter));
+            BrailleTouchConnection.write(value);
+        }
+        else if (mReadingCell == CENTER_CELL)
+        {
+            BrailleTouchConnection.write(Util.rightPinsToLeft(value));
+            BrailleTouchConnection.write(Util.leftPinsToRight(value));
         }
         else
         {
-            BrailleTouchConnection.write(mBrailleTouchTranslator.translateToBraille(letter));
+            BrailleTouchConnection.write(value);
             BrailleTouchConnection.write(0);
 
         }

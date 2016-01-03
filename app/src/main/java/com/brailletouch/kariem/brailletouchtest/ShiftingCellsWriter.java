@@ -15,73 +15,35 @@ public class ShiftingCellsWriter extends BrailleTouchWriter{
         super(brailleTouchTranslatorl);
     }
 
-    int shiftRightToLeft(int value)
-    {
-        int result=0;
-        for (int i=0; i<4; i++)
-            result +=((value & BrailleTouchTranslator.mDots[i])
-                / BrailleTouchTranslator.mDots[i]) * BrailleTouchTranslator.mDots[i+4];
-
-        return result;
-
-
-    }
-
-
-    int shiftLeftToRight(int value)
-    {
-        int result=0;
-        for (int i=0; i<4; i++)
-            result +=((value & BrailleTouchTranslator.mDots[i+4])
-                    / BrailleTouchTranslator.mDots[i+4]) * BrailleTouchTranslator.mDots[i];
-
-        return result;
-
-
-    }
-
-    int shiftRightToRight(int value)
-    {
-        int result=0;
-        for (int i=0; i<4; i++)
-            result += (value & BrailleTouchTranslator.mDots[i+4]);
-
-        return result;
-    }
-    int shiftLeftToLeft(int value)
-    {
-        int result=0;
-        for (int i=0; i<4; i++)
-            result += (value & BrailleTouchTranslator.mDots[i]);
-
-        return result;
-    }
 
     @Override
     public void write(char letter) throws IOException {
         int letterValue = mBrailleTouchTranslator.translateToBraille(letter);
-        mLastRightCellRC = shiftLeftToRight(mLastRightCellLC);
-        mLastRightCellLC = shiftRightToLeft(mLastLeftCellRC);
-        mLastLeftCellRC = shiftLeftToRight(mLastLeftCellLC);
-        mLastLeftCellLC = shiftRightToLeft(letterValue);
+        letterValue = postProcessing(letterValue);
+
+
+        mLastRightCellRC = Util.leftPinsToRight(mLastRightCellLC);
+        mLastRightCellLC = Util.rightPinsToLeft(mLastLeftCellRC);
+        mLastLeftCellRC = Util.leftPinsToRight(mLastLeftCellLC);
+        mLastLeftCellLC = Util.rightPinsToLeft(letterValue);
 
 
         BrailleTouchConnection.write(mLastRightCellLC + mLastRightCellRC);
         BrailleTouchConnection.write(mLastLeftCellLC + mLastLeftCellRC);
 
-        mLastRightCellRC = shiftLeftToRight(mLastRightCellLC);
-        mLastRightCellLC = shiftRightToLeft(mLastLeftCellRC);
-        mLastLeftCellRC = shiftLeftToRight(mLastLeftCellLC);
-        mLastLeftCellLC = shiftRightToRight(letterValue);
+        mLastRightCellRC = Util.leftPinsToRight(mLastRightCellLC);
+        mLastRightCellLC = Util.rightPinsToLeft(mLastLeftCellRC);
+        mLastLeftCellRC = Util.leftPinsToRight(mLastLeftCellLC);
+        mLastLeftCellLC = Util.getRightPins(letterValue);
 
 
         BrailleTouchConnection.write(mLastRightCellLC + mLastRightCellRC);
         BrailleTouchConnection.write(mLastLeftCellLC + mLastLeftCellRC);
 
 
-        mLastRightCellRC = shiftLeftToRight(mLastRightCellLC);
-        mLastRightCellLC = shiftRightToLeft(mLastLeftCellRC);
-        mLastLeftCellRC = shiftLeftToRight(mLastLeftCellLC);
+        mLastRightCellRC = Util.leftPinsToRight(mLastRightCellLC);
+        mLastRightCellLC = Util.rightPinsToLeft(mLastLeftCellRC);
+        mLastLeftCellRC = Util.leftPinsToRight(mLastLeftCellLC);
         mLastLeftCellLC = 0;
 
 
