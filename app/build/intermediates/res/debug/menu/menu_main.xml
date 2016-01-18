@@ -18,5 +18,12 @@
         android:title="Enter Text" />
 
 
+    <item android:id="@+id/ReloadTweets"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="Reload Tweets" />
+
+
+
+
 </menu>
 <!-- From: file:/C:/Users/Kariem/Desktop/Library/currentProjects/SamamAndroid/BrailleTouchTest/app/src/main/res/menu/menu_main.xml -->

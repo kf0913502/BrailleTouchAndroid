@@ -30,6 +30,30 @@
             </RelativeLayout>
         </TableRow>
 
+
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/Language"
+                android:text="Language"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp" />
+
+            <RelativeLayout android:layout_weight="1">
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LanguageSpinner"
+                    android:spinnerMode="dropdown"
+                    android:layout_centerHorizontal="true"
+                    />
+            </RelativeLayout>
+        </TableRow>
+
+
+
         <TableRow >
             <TextView
                 android:layout_width="0dp"

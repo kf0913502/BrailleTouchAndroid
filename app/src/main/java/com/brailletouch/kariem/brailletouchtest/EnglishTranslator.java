@@ -46,6 +46,8 @@ public class EnglishTranslator extends BrailleTouchTranslator{
     public int translateToBraille(Object letter)
     {
         Log.v("BrailleTouchTest", "Printing " + Character.toString((char)letter));
+        if (englishDictionary.containsKey(Character.toLowerCase((char)letter)))
         return englishDictionary.get(Character.toLowerCase((char)letter));
+        else return 0;
     }
 }

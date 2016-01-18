@@ -7,6 +7,14 @@ import java.io.IOException;
  */
 public abstract class BrailleTouchWriter {
 
+    public BrailleTouchTranslator getmBrailleTouchTranslator() {
+        return mBrailleTouchTranslator;
+    }
+
+    public void setmBrailleTouchTranslator(BrailleTouchTranslator mBrailleTouchTranslator) {
+        this.mBrailleTouchTranslator = mBrailleTouchTranslator;
+    }
+
     BrailleTouchTranslator mBrailleTouchTranslator;
     private boolean mShiftPinsDown = false;
 
