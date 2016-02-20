@@ -5,4 +5,4 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
-<!-- From: file:/C:/Users/Kariem/Desktop/Library/currentProjects/SamamAndroid/BrailleTouchTest/app/src/main/res/menu/menu_connect.xml -->
+<!-- From: file:/home/kariem/StudioProjects/BrailleTouchAndroid/app/src/main/res/menu/menu_connect.xml -->
